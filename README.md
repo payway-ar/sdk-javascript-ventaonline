@@ -16,7 +16,7 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Generaci&oacute;n de Token de Pago](#authenticate)
      +  [Con datos de tarjeta](#datostarjeta)
      +  [Con tarjeta tokenizada](#tokentarjeta)
-  + [Integración con Cybersource](#cybersource)  
+  + [Integración con Cybersource](#cybersource)
 
 <a name="introduccion"></a>
 ## Introducción
@@ -94,7 +94,11 @@ El ambiente se debe instanciar indicando su URL.
 
 
 ```javascript
-// ...codigo...
+// ...codigend:** Se realiza una solicitud de token de pago con la Llave de Acceso pública (public API Key), enviando los datos sensibles de la tarjeta (PAN, mes y año de expiración, código de seguridad, titular, y tipo y número de documento) y obteniéndose como resultado un token que permitirá realizar la transacción posterior.
+
+2. **sdk back-end:** Se ejecuta el pago con la Llave de Acceso privada (private API Key), enviando el token generado en el Paso 1 más el identificador de la transacción a nivel comercio, el monto total, la moneda y la cantidad de cuotas.
+
+A continuación,o...
 const urlDesarrollo = "https://developers.decidir.com/api/v1";
 const urlProduccion = "https://live.decidir.com/api/v1";
 
@@ -117,7 +121,7 @@ decidirProduccion.setTimeout(3000);//se configura el timeout en milisegundos
 
 Instanciación de la clase `Decidir`
 
-La misma recibe como parámetros la public key provista por Decidir para el comercio y el ambiente en que se trabajar$aacute;.
+La misma recibe como parámetros la public key provista por Decidir para el comercio y el ambiente en que se trabajar&aacute;.
 
 La API Key será provista por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar).
 
@@ -159,12 +163,12 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
   <fieldset>
 			<ul>
         <li>
-            <label for="card_number">N&uacute;mero de tarjeta:</label>
+            <label for="card_number">Numero de tarjeta:</label>
             <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
         </li>
 
         <li>
-            <label for="security_code">C&oacute;digo de seguridad:</label>
+            <label for="security_code">Codigo de seguridad:</label>
             <input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
         </li>
 
@@ -187,7 +191,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 					</select>
         </li>
         <li>
-          <label for="card_holder_doc_type">N&uacute;mero de documento:</label>
+          <label for="card_holder_doc_type">Numero de documento:</label>
           <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
         </li>
       </ul>
@@ -243,7 +247,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 							<input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="70b03ded-9116-45be-91ca-27a6969ad6ac"/>
 					</li>
 					<li>
-							<label for="security_code">C&oacute;digo de seguridad:</label>
+							<label for="security_code">Codigo de seguridad:</label>
 							<input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
 					</li>
 				</ul>
