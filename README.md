@@ -8,7 +8,6 @@ Modulo para conexión con gateway de pago DECIDIR2
   + [Alcance](#scope)
   + [Diagrama de secuencia](#secuencia)
 + [Instalación](#instalacion)
- + [Versiones de Andrioid soportadas](#versionesdeandroidoportadas)
   + [Manual de Integración](#manualintegracion)
   + [Ambientes](#environments)
 + [Uso](#uso)
@@ -17,7 +16,7 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Generaci&oacute;n de Token de Pago](#authenticate)
      +  [Con datos de tarjeta](#datostarjeta)
      +  [Con tarjeta tokenizada](#tokentarjeta)
-
+  + [Integración con Cybersource](#cybersource)  
 
 <a name="introduccion"></a>
 ## Introducción
@@ -37,7 +36,7 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
 
 <a name="scope"></a>
 ## Alcance
-La **sdk Android** provee soporte para su **aplicaci&oacute;n front-end**, encargandose de la **generaci&oacute;n de un token de pago** por parte de un cliente. Este **token** debe ser enviado al comercio al realizar el pago.
+La **sdk Javascript** provee soporte para su **aplicaci&oacute;n front-end**, encargandose de la **generaci&oacute;n de un token de pago** por parte de un cliente. Este **token** debe ser enviado al comercio al realizar el pago.
 Esta sdk permite la comunicaci&oacute;n del cliente con la **API Decidir** utilizando su **API Key p&uacute;blica**<sup>1</sup>.
 
 Para procesar el pago con **Decidir**, el comercio podr&acute; realizarlo a trav&eacute;s de alguna de las siguentes **sdks front-backend**:
@@ -70,19 +69,12 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 
 <a name="instalacion"></a>
 ## Instalación
-Se debe descargar la última versión del SDK desde el botón Download ZIP del branch master.
-Una vez descargado y descomprimido, se debe agregar la librería `decidir-sdk-android-release.aar` que se encuentra dentro de la carpeta`./decidir-sdk-android/build/outputs/aar`, a las librerías del proyecto y en el codigo se debe agregar siguiente import.
 
-```java
-import com.android.decidir.sdk.Authenticate;
-import com.android.decidir.sdk.dto.*;
-import com.android.decidir.sdk.exceptions.*;
+Se debe agregar en el HTML el siguiente tag.
+
+```html
+<script src="https://github.com/decidir/sdk-javascript-v2/blob/master/release/decidir.js"></script>
 ```
-
-<a name="versionesdeandroidsoportadas"></a>
-### Versiones de Android soportadas
-La versi&oacute;n implementada de la SDK, est&aacute; testeada para versiones desde API Level 14 (Android version >= 4.0)
-
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="manualintegracion"></a>
@@ -97,21 +89,21 @@ Se encuentra disponible en Gitbook el **[Manual de Integración Decidir2] (https
 
 ## Ambientes
 
-El SDK-Android permite trabajar con todos los ambientes de Decidir.
+El **sdk Javascript** permite trabajar con los ambientes de Sandbox y Producc&oacute;n de Decidir.
 El ambiente se debe instanciar indicando su URL.
 
-```java
-import com.android.decidir.sdk.Authenticate;
 
-public class MiClase {
-String publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-String urlDesarrollo = "https://developers.decidir.com/api/v1";
-String urlProduccion = "https://live.decidir.com/api/v1";
-int timeout = 2; //Expresado en segundos
+```javascript
+// ...codigo...
+const urlDesarrollo = "https://developers.decidir.com/api/v1";
+const urlProduccion = "https://live.decidir.com/api/v1";
+
 //Para el ambiente de desarrollo
-Authenticate decidirDesa = new Authenticate(publicApiKey, urlDesarrollo, timeout);
+const decidirSandbox = new Decidir(urlDesarrollo);
+decidirSandbox.setTimeout(0);//se configura sin timeout
 //Para el ambiente de produccion
-Authenticate decidirProd = new Authenticate(publicApiKey, urlProduccion, timeout);
+const decidirProduccion = new Decidir(urlProduccion);
+decidirProduccion.setTimeout(3000);//se configura el timeout en milisegundos
 // ...codigo...
 }
 ```
@@ -123,18 +115,21 @@ Authenticate decidirProd = new Authenticate(publicApiKey, urlProduccion, timeout
 <a name="initconector"></a>
 ### Inicializar la clase correspondiente al conector.
 
-Instanciación de la clase `Authenticate`
+Instanciación de la clase `Decidir`
 
 La misma recibe como parámetros la public key provista por Decidir para el comercio y el ambiente en que se trabajar$aacute;.
 
 La API Key será provista por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar).
 
-```java
+```javascript
+const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
+//Para el ambiente de produccion(default)
+const decidir = new Decidir();
+//Se indica la public API Key
+decidir.setPublishableKey(publicApiKey);
+decidir.setTimeout(5000);//timeout de 5 segundos
 // ...codigo...
-String publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default) usando public api key
-Authenticate decidir = new Authenticate(publicApiKey);
-//...codigo...
+}
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -147,7 +142,7 @@ Authenticate decidir = new Authenticate(publicApiKey);
 
 ### Generaci&oacute;n de Token de Pago
 
-El SDK-Android permite generar, desde el dispositivo mobile, un token de pago con los datos de la tarjeta del cliente. &Eacute;ste se deber&aacute; enviar luego al backend del comercio para realizar la transacci&oacute;n de pago correpondiente.
+La **sdk javascript** permite generar, desde el navegador, un token de pago con los datos de la tarjeta del cliente. &Eacute;ste se deber&aacute; enviar luego al backend del comercio para realizar la transacci&oacute;n de pago correpondiente.
 
 El token de pago puede ser generado de 2 formas como se muestra a continuaci&oacute;n.
 
@@ -158,40 +153,77 @@ El token de pago puede ser generado de 2 formas como se muestra a continuaci&oac
 #### Con datos de tarjeta
 
 Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
+Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
+```html
+<form action="" method="post" id="formulario" >
+  <fieldset>
+			<ul>
+        <li>
+            <label for="card_number">N&uacute;mero de tarjeta:</label>
+            <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
+        </li>
 
-```java
-// ...codigo...
-String publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default) usando public api key
-Authenticate decidir = new Authenticate(publicApiKey);
-//Datos de tarjeta
-AuthenticationWithoutToken datos = new AuthenticationWithoutToken();
-datos.setCard_number("4509790112684851"); //Nro de ""tarjeta. MANDATORIO
-datos.setSecurity_code("123"); // CVV. OPCIONAL
-datos.setCard_expiration_month("03"); //Mes de vencimiento [01-12]. MANDATORIO
-datos.setCard_expiration_year("19");//Año de vencimiento[00-99]. MANDATORIO
-datos.setCard_holder_name("TITULAR"); //Nombre del titular tal como aparece en la tarjeta. MANDATORIO
-CardHolderIdentification idTitular = new CardHolderIdentification(); //Identificacion del titular de la tarjeta. Es opcional, pero debe estar completo si se agrega
-idTitular.setType("dni");//MANDATORIO
-idTitular.setNumber("12345678");//MANDATORIO
-datos.setCard_holder_identification(idTitular); //OPCIONAL
+        <li>
+            <label for="security_code">C&oacute;digo de seguridad:</label>
+            <input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+        </li>
 
-//Datos para consumo de servicio
-Context context = ... //Application context ( android.content.Context)
-Boolean deteccionFraude = Boolean.TRUE; // Si se realiza deteccion de fraude por CyberSource
-int timeoutFraude = 10; //Timeout para la solicitud de deteccion de fraude. Expresado en segundos. Por default es 30 segundos.
-try {
-DecidirResponse<AuthenticationResponse> respuesta = decidir.createPaymentToken(datos, context, deteccionFraude, timeoutFraude)
-// Procesamiento de respuesta de la generacion de token de pago
-// ...codigo...
-} catch (DecidirException de) {
-// Manejo de excepcion  de Decidir
- // ...codigo...
-} catch (Exception e) {
- //Manejo de excepcion general
-// ...codigo...
+        <li>
+            <label for="card_expiration_month">Mes de vencimiento:</label>
+            <input type="text"  data-decidir="card_expiration_month" placeholder="MM" value="12"/>
+        </li>
+        <li>
+            <label for="card_expiration_year">Año de vencimiento:</label>
+            <input type="text"  data-decidir="card_expiration_year" placeholder="AA" value="20"/>
+        </li>
+        <li>
+            <label for="card_holder_name">Nombre del titular:</label>
+            <input type="text" data-decidir="card_holder_name" placeholder="TITULAR" value="TITULAR"/>
+        </li>
+        <li>
+          <label for="card_holder_doc_type">Tipo de documento:</label>
+          <select data-decidir="card_holder_doc_type">
+						<option value="dni">DNI</option>
+					</select>
+        </li>
+        <li>
+          <label for="card_holder_doc_type">N&uacute;mero de documento:</label>
+          <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
+        </li>
+      </ul>
+      <input type="submit" value="Generar Token" />
+  </fieldset>
+</form>
+```
+Y la invocici&oacute;n en **Javascript**
+
+```javascript
+const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
+//Para el ambiente de produccion(default)
+const decidir = new Decidir();
+//Se indica la public API Key
+decidir.setPublishableKey(publicApiKey);
+//formulario
+var form = document.querySelector('#formulario');
+//Asigna la funcion de invocacion al evento de submit del formulario
+addEvent(form,'submit',sendForm));
+//funcion para manejar la respuesta
+function sdkResponseHandler(status, response) {
+	if (status != 200 && status != 201) {
+    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //...codigo...
+  } else {
+    //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
+    //..codigo...
+  }
 }
-//...codigo...
+//funcion de invocacion con sdk
+function sendForm(event){
+  event.preventDefault();
+  decidir.createToken(form, sdkResponseHandler);//formulario y callback
+  return false;
+};
+//..codigo...
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -200,34 +232,54 @@ DecidirResponse<AuthenticationResponse> respuesta = decidir.createPaymentToken(d
 
 #### Con tarjeta tokenizada
 
-Mediante este recurso, se genera una token de pago a partir una tarjeta tokenizada previamente.
+Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
+Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
+```html
+<form action="" method="post" id="formulario" >
+		<fieldset>
+				<ul>
+					<li>
+							<label for="token">Tarjeta tokenizada:</label>
+							<input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="70b03ded-9116-45be-91ca-27a6969ad6ac"/>
+					</li>
+					<li>
+							<label for="security_code">C&oacute;digo de seguridad:</label>
+							<input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+					</li>
+				</ul>
+			  <input type="submit" value="Generar Token" />
+		</fieldset>
+</form>
+```
+Y la invocici&oacute;n en **Javascript**
 
-```java
-// ...codigo...
-String publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default) usando public api key
-Authenticate decidir = new Authenticate(publicApiKey);
-//Datos de tarjeta tokenizada
-AuthenticationWithToken datos = new AuthenticationWithToken();
-datos.setToken("f522e031-90cb-41ed-ba1f-46e813e8e789"); //Tarjeta tokenizada MANDATORIO
-datos.setSecurity_code("123"); // CVV. OPCIONAL
-
-//Datos para consumo de servicio
-Context context = ... //Application context ( android.content.Context)
-Boolean deteccionFraude = Boolean.TRUE; // Si se realiza deteccion de fraude por CyberSource
-int timeoutFraude = 10; //Timeout para la solicitud de deteccion de fraude. Expresado en segundos. Por default es 30 segundos.
-try {
-DecidirResponse<AuthenticationResponse> respuesta = decidir.createPaymentTokenWithCardToken(datos, context, deteccionFraude, timeoutFraude)
-// Procesamiento de respuesta de la generacion de token de pago
-// ...codigo...
-} catch (DecidirException de) {
-// Manejo de excepcion  de Decidir
- // ...codigo...
-} catch (Exception e) {
- //Manejo de excepcion general
-// ...codigo...
+```javascript
+const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
+//Para el ambiente de produccion(default)
+const decidir = new Decidir();
+//Se indica la public API Key
+decidir.setPublishableKey(publicApiKey);
+//formulario
+var form = document.querySelector('#formulario');
+//Asigna la funcion de invocacion al evento de submit del formulario
+addEvent(form,'submit',sendForm));
+//funcion para manejar la respuesta
+function sdkResponseHandler(status, response) {
+	if (status != 200 && status != 201) {
+    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //...codigo...
+  } else {
+    //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
+    //..codigo...
+  }
 }
-//...codigo...
+//funcion de invocacion con sdk
+function sendForm(event){
+  event.preventDefault();
+  decidir.createToken(form, sdkResponseHandler);//formulario y callback
+  return false;
+};
+//..codigo...
 ```
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -236,7 +288,19 @@ DecidirResponse<AuthenticationResponse> respuesta = decidir.createPaymentTokenWi
 
 ## Integración con Cybersource
 
-Para utilizar el Servicio de Control de Fraude Cybersource, debe indicarse en un par&aacute;metro al momento de invocar el servicio de generaci&oacute;n de token de pago.
-[Ver ejemplo](#tokentarjeta)
+Por default, la sdk javascript utiliza el Servicio de Control de Fraude Cybersource. Para inhabilitar esta funcionalidad, debe indicarse en un par&aacute;metro al momento de instanciar el objeto `Decidir`. Para realizar esto, debe invocarse al contrucutor con dos argumentos, el primero es la url el cual puede enviarse nulo para tomar la url por defecto, y el segundo que indica si se inhabilita Cybersource
+
+```javascript
+const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
+const urlDesarrollo = "https://developers.decidir.com/api/v1";
+const inhabilitarCS = true;
+//Para el ambiente de produccion(default)
+const decidir = new Decidir(urlDesarrollo,inhabilitarCS);
+//Se indica la public API Key
+decidir.setPublishableKey(publicApiKey);
+decidir.setTimeout(5000);//timeout de 5 segundos
+// ...codigo...
+}
+```
 
 [<sub>Volver a inicio</sub>](#inicio)
