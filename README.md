@@ -8,7 +8,6 @@ Modulo para conexión con gateway de pago DECIDIR2
   + [Alcance](#scope)
   + [Diagrama de secuencia](#secuencia)
 + [Instalación](#instalacion)
-  + [Manual de Integración](#manualintegracion)
   + [Ambientes](#environments)
 + [Uso](#uso)
   + [Inicializar la clase correspondiente al conector](#initconector)
@@ -75,14 +74,6 @@ Se debe agregar en el HTML el siguiente tag.
 ```html
 <script src="https://github.com/decidir/sdk-javascript-v2/blob/master/release/decidir.js"></script>
 ```
-[<sub>Volver a inicio</sub>](#inicio)
-
-<a name="manualintegracion"></a>
-
-## Manual de Integración
-
-Se encuentra disponible en Gitbook el **[Manual de Integración Decidir2] (https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios usando la presente SDK.
-
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="test"></a>
