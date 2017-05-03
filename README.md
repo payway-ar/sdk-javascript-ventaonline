@@ -22,14 +22,15 @@ Modulo para conexión con gateway de pago DECIDIR2
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
- + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
- + [sdk Android](https://github.com/decidir/SDK-Android.v2)
- + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+  + [sdk IOS](https://github.com/decidir/sdk-ios-v2)
+  + [sdk Android](https://github.com/decidir/sdk-android-v2)
+  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
 + **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
- + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
- + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
- + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
- + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+  + [sdk Java](https://github.com/decidir/sdk-java-v2)
+  + [sdk PHP](https://github.com/decidir/sdk-php-v2)
+  + [sdk .Net](https://github.com/decidir/sdk-.net-v2)
+  + [sdk Node](https://github.com/decidir/sdk-node-v2)
+
 
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -39,15 +40,15 @@ La **sdk Javascript** provee soporte para su **aplicaci&oacute;n front-end**, en
 Esta sdk permite la comunicaci&oacute;n del cliente con la **API Decidir** utilizando su **API Key p&uacute;blica**<sup>1</sup>.
 
 Para procesar el pago con **Decidir**, el comercio podr&acute; realizarlo a trav&eacute;s de alguna de las siguentes **sdks front-backend**:
-+ [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
-+ [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
-+ [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
-+ [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
++ [sdk Java](https://github.com/decidir/sdk-java-v2)
++ [sdk PHP](https://github.com/decidir/sdk-php-v2)
++ [sdk .Net](https://github.com/decidir/sdk-.net-v2)
++ [sdk Node](https://github.com/decidir/sdk-node-v2)
 
-![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
+![imagen de sdks](./docs/img/DiagramaSDKs.png)
 
 ---
-<sup>_1 - Las API Keys serán provistas por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar). _</sup>
+<sup>_1 - Las API Keys serán provistas por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar)</sup>
 
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -80,27 +81,21 @@ Se debe agregar en el HTML el siguiente tag.
 
 ## Ambientes
 
-El **sdk Javascript** permite trabajar con los ambientes de Sandbox y Producc&oacute;n de Decidir.
+El **sdk Javascript** permite trabajar con los ambientes Sandbox y Producc&oacute;n de Decidir.
 El ambiente se debe instanciar indicando su URL.
 
 
 ```javascript
-// ...codigend:** Se realiza una solicitud de token de pago con la Llave de Acceso pública (public API Key), enviando los datos sensibles de la tarjeta (PAN, mes y año de expiración, código de seguridad, titular, y tipo y número de documento) y obteniéndose como resultado un token que permitirá realizar la transacción posterior.
-
-2. **sdk back-end:** Se ejecuta el pago con la Llave de Acceso privada (private API Key), enviando el token generado en el Paso 1 más el identificador de la transacción a nivel comercio, el monto total, la moneda y la cantidad de cuotas.
-
-A continuación,o...
-const urlDesarrollo = "https://developers.decidir.com/api/v1";
+// ...codigo...
+const urlSandbox = "https://developers.decidir.com/api/v1";
 const urlProduccion = "https://live.decidir.com/api/v1";
-
 //Para el ambiente de desarrollo
-const decidirSandbox = new Decidir(urlDesarrollo);
+const decidirSandbox = new Decidir(urlSandbox);
 decidirSandbox.setTimeout(0);//se configura sin timeout
 //Para el ambiente de produccion
 const decidirProduccion = new Decidir(urlProduccion);
 decidirProduccion.setTimeout(3000);//se configura el timeout en milisegundos
 // ...codigo...
-}
 ```
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -116,15 +111,18 @@ La misma recibe como parámetros la public key provista por Decidir para el come
 
 La API Key será provista por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar).
 
+A partir de ahora y por el resto de la documentaci&oacute;n, se ejemplificar&aacute; utilizando una APIKey habilitada para operar en el ambiente Sandbox.
+
+
 ```javascript
-const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default)
-const decidir = new Decidir();
+const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+const urlSandbox = "https://developers.decidir.com/api/v1";
+//Para el ambiente de desarrollo
+const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
 decidir.setPublishableKey(publicApiKey);
 decidir.setTimeout(5000);//timeout de 5 segundos
 // ...codigo...
-}
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -152,52 +150,52 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 ```html
 <form action="" method="post" id="formulario" >
   <fieldset>
-			<ul>
-        <li>
-            <label for="card_number">Numero de tarjeta:</label>
-            <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
-        </li>
-
-        <li>
-            <label for="security_code">Codigo de seguridad:</label>
-            <input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
-        </li>
-
-        <li>
-            <label for="card_expiration_month">Mes de vencimiento:</label>
-            <input type="text"  data-decidir="card_expiration_month" placeholder="MM" value="12"/>
-        </li>
-        <li>
-            <label for="card_expiration_year">Año de vencimiento:</label>
-            <input type="text"  data-decidir="card_expiration_year" placeholder="AA" value="20"/>
-        </li>
-        <li>
-            <label for="card_holder_name">Nombre del titular:</label>
-            <input type="text" data-decidir="card_holder_name" placeholder="TITULAR" value="TITULAR"/>
-        </li>
-        <li>
-          <label for="card_holder_doc_type">Tipo de documento:</label>
-          <select data-decidir="card_holder_doc_type">
-						<option value="dni">DNI</option>
-					</select>
-        </li>
-        <li>
-          <label for="card_holder_doc_type">Numero de documento:</label>
-          <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
-        </li>
-      </ul>
-      <input type="submit" value="Generar Token" />
+		<ul>
+      <li>
+        <label for="card_number">Numero de tarjeta:</label>
+        <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
+      </li>
+      <li>
+        <label for="security_code">Codigo de seguridad:</label>
+      <input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+      </li>
+      <li>
+        <label for="card_expiration_month">Mes de vencimiento:</label>
+        <input type="text"  data-decidir="card_expiration_month" placeholder="MM" value="12"/>
+      </li>
+      <li>
+        <label for="card_expiration_year">Año de vencimiento:</label>
+        <input type="text"  data-decidir="card_expiration_year" placeholder="AA" value="20"/>
+      </li>
+      <li>
+        <label for="card_holder_name">Nombre del titular:</label>
+        <input type="text" data-decidir="card_holder_name" placeholder="TITULAR" value="TITULAR"/>
+      </li>
+      <li>
+        <label for="card_holder_doc_type">Tipo de documento:</label>
+        <select data-decidir="card_holder_doc_type">
+					<option value="dni">DNI</option>
+				</select>
+      </li>
+      <li>
+        <label for="card_holder_doc_type">Numero de documento:</label>
+        <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
+      </li>
+    </ul>
+    <input type="submit" value="Generar Token" />
   </fieldset>
 </form>
 ```
 Y la invocici&oacute;n en **Javascript**
 
 ```javascript
-const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default)
-const decidir = new Decidir();
+const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+const urlSandbox = "https://developers.decidir.com/api/v1";
+//Para el ambiente de desarrollo
+const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
 decidir.setPublishableKey(publicApiKey);
+decidir.setTimeout(5000);//timeout de 5 segundos
 //formulario
 var form = document.querySelector('#formulario');
 //Asigna la funcion de invocacion al evento de submit del formulario
@@ -213,11 +211,11 @@ function sdkResponseHandler(status, response) {
   }
 }
 //funcion de invocacion con sdk
-function sendForm(event){
+function sendForm(event) {
   event.preventDefault();
   decidir.createToken(form, sdkResponseHandler);//formulario y callback
   return false;
-};
+}
 //..codigo...
 ```
 
@@ -229,31 +227,34 @@ function sendForm(event){
 
 Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
 Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
+
 ```html
 <form action="" method="post" id="formulario" >
-		<fieldset>
-				<ul>
-					<li>
-							<label for="token">Tarjeta tokenizada:</label>
-							<input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="70b03ded-9116-45be-91ca-27a6969ad6ac"/>
-					</li>
-					<li>
-							<label for="security_code">Codigo de seguridad:</label>
-							<input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
-					</li>
-				</ul>
-			  <input type="submit" value="Generar Token" />
-		</fieldset>
+	<fieldset>
+		<ul>
+			<li>
+				<label for="token">Tarjeta tokenizada:</label>
+				<input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="70b03ded-9116-45be-91ca-27a6969ad6ac"/>
+			</li>
+			<li>
+				<label for="security_code">Codigo de seguridad:</label>
+				<input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+			</li>
+		</ul>
+	  <input type="submit" value="Generar Token" />
+	</fieldset>
 </form>
 ```
 Y la invocici&oacute;n en **Javascript**
 
 ```javascript
-const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-//Para el ambiente de produccion(default)
-const decidir = new Decidir();
+const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+const urlSandbox = "https://developers.decidir.com/api/v1";
+//Para el ambiente de desarrollo
+const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
 decidir.setPublishableKey(publicApiKey);
+decidir.setTimeout(5000);//timeout de 5 segundos
 //formulario
 var form = document.querySelector('#formulario');
 //Asigna la funcion de invocacion al evento de submit del formulario
@@ -286,11 +287,11 @@ function sendForm(event){
 Por default, la sdk javascript utiliza el Servicio de Control de Fraude Cybersource. Para inhabilitar esta funcionalidad, debe indicarse en un par&aacute;metro al momento de instanciar el objeto `Decidir`. Para realizar esto, debe invocarse al contrucutor con dos argumentos, el primero es la url el cual puede enviarse nulo para tomar la url por defecto, y el segundo que indica si se inhabilita Cybersource
 
 ```javascript
-const publicApiKey = "92b71cf711ca41f78362a7134f87ff65";
-const urlDesarrollo = "https://developers.decidir.com/api/v1";
+const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+const urlSandbox = "https://developers.decidir.com/api/v1";
 const inhabilitarCS = true;
-//Para el ambiente de produccion(default)
-const decidir = new Decidir(urlDesarrollo,inhabilitarCS);
+//Para el ambiente de desarrollo
+const decidir = new Decidir(urlSandbox, inhabilitarCS);
 //Se indica la public API Key
 decidir.setPublishableKey(publicApiKey);
 decidir.setTimeout(5000);//timeout de 5 segundos
