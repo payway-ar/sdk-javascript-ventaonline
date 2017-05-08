@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<script src="https://live.decidir.com/static/v1/decidir.js"></script>
+		<script src="test-html.js"></script>
+	<head>
+	<body>
+
+	<div style="display: inline-block;width: 50%;">
+		<ul>
+			<li>
+					<label for="email">Email</label>
+					<input name="email" value="test_user_19653727@testuser.com" type="email" placeholder="your email"/>
+			</li>
+			<li>
+				<input type="radio" name="request_type" value="card_data_form" checked onchange="changeRequestType(event.target.value);">Card data</input>
+				<input type="radio"  name="request_type" value="card_token_form" onchange="changeRequestType(event.target.value);">Card token</input>
+				<input type="radio"  name="request_type" value="both_form"  onchange="changeRequestType(event.target.value);">Both (validation error)</input>
+			</li>
+			<li>
+				<input type="checkbox" id="fraud_prevention" checked onchange="withFraudPrevention(event.target.checked);">Use fraud prevention</input>
+			</li>
+		</ul>
+		<form action="" method="post" id="card_data_form" name="token-form" >
+		    <fieldset>
+						<ul>
+	            <li>
+	                <label for="card_number">Credit card number:</label>
+	                <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
+	            </li>
+
+	            <li>
+	                <label for="security_code">Security code:</label>
+	                <input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+	            </li>
+
+	            <li>
+	                <label for="card_expiration_month">Expiration month:</label>
+	                <input type="text"  data-decidir="card_expiration_month" placeholder="MM" value="12"/>
+	            </li>
+	            <li>
+	                <label for="card_expiration_year">Expiration year:</label>
+	                <input type="text"  data-decidir="card_expiration_year" placeholder="YY" value="20"/>
+	            </li>
+	            <li>
+	                <label for="card_holder_name">Card holder name:</label>
+	                <input type="text" data-decidir="card_holder_name" placeholder="APRO" value="EA"/>
+	            </li>
+              <li>
+	                <label for="issued">Issued:</label>
+	                <input type="text" name="issued" disabled/>
+	            </li>
+	            <li>
+                <label for="card_holder_doc_type">Document type:</label>
+                <select data-decidir="card_holder_doc_type">
+									<option value="dni">DNI</option>
+								</select>
+	            </li>
+	            <li>
+                <label for="card_holder_doc_type">Document number:</label>
+                <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
+	            </li>
+		        </ul>
+		        <input type="submit" value="Generate Token!" />
+		    </fieldset>
+		</form>
+
+		<form action="" method="post" id="card_token_form" name="token-form" >
+				<fieldset>
+						<ul>
+							<li>
+									<label for="token">Credit card token:</label>
+									<input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="ae9fc3e5-ff41-4de2-9c91-81030be1c4a6"/>
+							</li>
+							<li>
+									<label for="security_code">Security code:</label>
+									<input type="text"  data-decidir="security_code" placeholder="XXX" value="123" />
+							</li>
+						</ul>
+						<input type="submit" value="Generate Token!" />
+				</fieldset>
+		</form>
+
+		<form action="" method="post" id="both_form" name="token-form" >
+		    <fieldset>
+					<ul>
+	          <li>
+	            <label for="token">Credit card token:</label>
+	            <input type="text"  data-decidir="token" placeholder="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx" value="70b03ded-9116-45be-91ca-27a6969ad6ac"/>
+	          </li>
+		            <li>
+		                <label for="card_number">Credit card number:</label>
+		                <input type="text"  data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905"/>
+		            </li>
+
+	            <li>
+	                <label for="security_code">Security code:</label>
+	                <input type="text" data-decidir="security_code" placeholder="XXX" value="123" />
+	            </li>
+
+	            <li>
+	                <label for="card_expiration_month">Expiration month:</label>
+	                <input type="text" data-decidir="card_expiration_month" placeholder="MM" value="12"/>
+	            </li>
+	            <li>
+	                <label for="card_expiration_year">Expiration year:</label>
+	                <input type="text"data-decidir="card_expiration_year" placeholder="YY" value="20"/>
+	            </li>
+	            <li>
+	                <label for="card_holder_name">Card holder name:</label>
+	                <input type="text" data-decidir="card_holder_name" placeholder="APRO" value="EA"/>
+	            </li>
+              <li>
+	                <label for="issued">Issued:</label>
+	                <input type="text" name="issued" disabled/>
+	            </li>
+	            <li>
+                <label for="card_holder_doc_type">Document type:</label>
+                <select  data-decidir="card_holder_doc_type">
+									<option value="dni">DNI</option>
+								</select>
+	            </li>
+	            <li>
+                <label for="card_holder_doc_type">Document number:</label>
+                <input type="text" data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
+	            </li>
+		        </ul>
+		        <input type="submit" value="Generate Token!" />
+		    </fieldset>
+		</form>
+
+	</div>
+	<div style="display: inline-block;width: 50%;">
+		<span> Resultado</span>
+		<p id="resultado"></p>
+	</div>
+	</body>
+</html>
