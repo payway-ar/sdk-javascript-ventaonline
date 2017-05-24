@@ -300,3 +300,105 @@ decidir.setTimeout(5000);//timeout de 5 segundos
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
+<a name="tablasreferencia"></a>
+
+## Tablas de Referencia
+
+<a name="codigos-de-medios-de-pago"></a>
+
+### Códigos de Medios de pago
+
+| MEDIO DE PAGO | NOMBRE |
+----------------|--------
+| 1 | VISA |
+| 8 | DINERS |
+| 15 | MASTERCARD |
+| 20 | MASTERCARD TEST |
+| 23 | TARJETA SHOPPING |
+| 24 | TARJETA NARANJA |
+| 25 | PAGO FACIL |
+| 26 | RAPIPAGO |
+| 27 | CABAL |
+| 29 | ITALCRED |
+| 30 | ARGENCARD |
+| 31 | VISA DEBITO<sup>1</sup> |
+| 34 | COOPEPLUS |
+| 36 | ARCASH |
+| 37 | NEXO |
+| 38 | CREDIMAS |
+| 39 | TARJETA NEVADA |
+| 41 | PAGOMISCUENTAS |
+| 42 | NATIVA |
+| 43 | TARJETA MAS |
+| 44 | TARJETA CARREFOUR |
+| 45 | TARJETA PYMENACION |
+| 46 | PAYSAFECARD |
+| 47 | MONEDERO ONLINE |
+| 48 | CAJA DE PAGOS |
+| 50 | BBPS |
+| 51 | COBRO EXPRESS |
+| 52 | QIDA |
+| 53 | LAPOS WEB TRAVEL |
+| 54 | GRUPAR |
+| 55 | PATAGONIA 365 |
+| 56 | TARJETA CLUD DIA |
+| 59 | TARJETA TUYA |
+| 60 | DISTRIBUTION |
+| 61 | LA ANONIMA |
+| 62 | CREDIGUIA |
+| 63 | CABAL PRISMA |
+| 64 | TARJETA SOL |
+| 65 | AMEX |
+| 66 | MC DEBIT |
+| 67 | CABAL DEBITO (Cabal24) |
+| 99 | MAESTRO |
+
+1. Visa Debito no acepta devoluciones parciales en ecommerce.
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="divisasa"></a>
+
+### Divisas Aceptadas
+
+| Divisa | Descripción | Código API
+---------|-------------|--------
+| AR$ | Pesos Argentinos | ARS
+| U$S | Dólares Americanos | USD
+
+**NOTA** Si bien la API RESTful de DECIDIR admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que DECIDIR recomienda que todas las transacciones se cursen en dicha moneda.
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="provincias"></a>
+
+### Provincias
+
+| Provincia | Código |
+|----------|-------------|
+| CABA | C |
+| Buenos Aires | B |
+| Catamarca | K |
+| Chaco | H |
+| Chubut | U |
+| Córdoba | X |
+| Corrientes | W |
+| Entre Ríos | R |
+| Formosa | P |
+| Jujuy | Y |
+| La Pampa | L |
+| La Rioja | F |
+| Mendoza | M |
+| Misiones | N |
+| Neuquén | Q |
+| Río Negro | R |
+| Salta | A |
+| San Juan | J |
+| San Luis | D |
+| Santa Cruz | Z |
+| Santa Fe | S |
+| Santiago del Estero | G |
+| Tierra del Fuego | V |
+| Tucumán | T |
+
+[<sub>Volver a inicio</sub>](#inicio)
