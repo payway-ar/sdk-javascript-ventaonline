@@ -50,6 +50,11 @@ Para procesar el pago con **Decidir**, el comercio podr&acute; realizarlo a trav
 ---
 <sup>_1 - Las API Keys serán provistas por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar)</sup>
 
+*Atención!* La **sdk Javascript** cumple con el estándar **ECMA Script 6** por lo que no 
+será compatible en versiones muy antiguas de Browsers. Podrá encontrar la información 
+necesaria en el siguiente sitio:
+[Tabla de Browsers soportados](http://www.webbrowsercompatibility.com/es6/desktop/)
+
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="secuencia"></a>
