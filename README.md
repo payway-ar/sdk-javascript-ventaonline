@@ -11,6 +11,7 @@ Modulo para conexión con gateway de pago DECIDIR2
   + [Ambientes](#environments)
 + [Uso](#uso)
   + [Inicializar la clase correspondiente al conector](#initconector)
+  + [Device fingerprinter](#device)
   + [Operatoria del Gateway](#operatoria)
     + [Generaci&oacute;n de Token de Pago](#authenticate)
      +  [Con datos de tarjeta](#datostarjeta)
@@ -132,6 +133,17 @@ decidir.setTimeout(5000);//timeout de 5 segundos
 
 [<sub>Volver a inicio</sub>](#inicio)
 
+<a name="device"></a>
+
+## Device FingerPrint
+El **Device Fingerprint (DF)** es la huella digital del dispositivo que realiza la transacción. 
+Es un dato muy importante que se tiene en cuenta en el proceso de validación
+Para acceder a la documentación: 
+https://decidir.api-docs.io/1.0/prevencion-de-fraude-by-cybersource/cs_device_fingerprint
+
+
+[<sub>Volver a inicio</sub>](#inicio)
+
 <a name="operatoria"></a>
 
 ## Operatoria del Gateway
@@ -152,6 +164,18 @@ El token de pago puede ser generado de 2 formas como se muestra a continuaci&oac
 
 Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
 Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo|
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| card_number| numero de tc  | SI  |  Mayor igual a 6 numeros   | "4507990000004905"  |
+| card_expiration_month | mes de vto de tc  | SI  | No debe ser anterior a la fecha (mes/año) del dia actual  | 07  |
+| card_expiration_year  |año de vto de tc   | SI  |  No debe ser anterior a la fecha (mes/año) del dia actual   | 17  |
+| security_code | codigo de seguridad  | NO  | Sin validacion  | 234  |
+| card_holder_name | titular (como figura en la tc)  | SI  | Mayor igual a 1 letra  | Valentin Santiago Gomez  |
+| type  |  tipo de documento | NO  | Sin validacion  | dni/DNI, cuil/CUIL  |
+| number  | nro de documento  | NO  |  Sin validacion | 23968498  |
+| device_unique_identifier  | identificador único del dispositivo  | NO  |  Sin validacion | 12345  |
+
 ```html
 <form action="" method="post" id="formulario" >
   <fieldset>
