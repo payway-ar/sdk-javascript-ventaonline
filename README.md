@@ -156,7 +156,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo|
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-| card_number| numero de tc  | SI  |  Mayor igual a 6 numeros   | "4507990000004905"  |
+| card_number| numero de tc  | SI  |  Mayor igual a 16 numeros   | "4507990000004905"  |
 | card_expiration_month | mes de vto de tc  | SI  | No debe ser anterior a la fecha (mes/año) del dia actual  | 07  |
 | card_expiration_year  |año de vto de tc   | SI  |  No debe ser anterior a la fecha (mes/año) del dia actual   | 17  |
 | security_code | codigo de seguridad  | NO  | Sin validacion  | 234  |
