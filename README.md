@@ -15,9 +15,11 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Generaci&oacute;n de Token de Pago](#authenticate)
      +  [Con datos de tarjeta](#datostarjeta)
      +  [Con tarjeta tokenizada](#tokentarjeta)
+     +  [Pago Offline](#pagooffline)
   + [Integración con Cybersource](#cybersource)
        + [Device fingerprinter](#device)
-
+ + [Tablas de referencia](#tablasreferencia)
+   + [Mensajes de Error](#erroresSDK)
 <a name="introduccion"></a>
 ## Introducción
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
@@ -204,7 +206,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
   </fieldset>
 </form>
 ```
-Y la invocici&oacute;n en **Javascript**
+Y la invocaci&oacute;n en **Javascript**
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
@@ -263,7 +265,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 	</fieldset>
 </form>
 ```
-Y la invocici&oacute;n en **Javascript**
+Y la invocaci&oacute;n en **Javascript**
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
@@ -391,5 +393,26 @@ Es un dato muy importante que se tiene en cuenta en el proceso de validación
 Para acceder a la documentación: 
 https://decidir.api-docs.io/1.0/prevencion-de-fraude-by-cybersource/cs_device_fingerprint
 
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="tablasreferencia"></a>
+
+# Tablas de Referencia
+
+<a name="erroresSDK"></a>
+
+## Mensajes de Error
+Estos códigos de Errores son los status en las Excepciones.
+
+|Tipo                  |Mensaje                     |Parámetro       |
+|:---------------------|:---------------------------|:---------------|
+|empty_card_number     |Card Number is empty        |card_holder_name|
+|empty_card_holder_name|Card Holder Name is empty   |card_number     |
+|nan_card_number       |Card Number must be a number|card_number     |
+|invalid_card_number   |Invalid Card Number         |expiry_date     |
+|invalid_expiry_date   |Expiry date is invalid      |expiry_date     |
+|invalid_expiry_date   |Expiry date is invalid      |token           |
+|empty_token           |Token is empty              |token           |
+|invalid_param         |Invalid param               |any param       |
 
 [<sub>Volver a inicio</sub>](#inicio)
