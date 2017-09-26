@@ -151,7 +151,7 @@ El token de pago puede ser generado de 2 formas como se muestra a continuaci&oac
 
 #### Con datos de tarjeta
 
-Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
+Mediante este recurso, se genera un token de pago a partir de los datos de la tarjeta del cliente.
 Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo|
@@ -243,7 +243,7 @@ function sendForm(event) {
 
 #### Con tarjeta tokenizada
 
-Mediante este recurso, se genera una token de pago a partir de los datos de la tarjeta del cliente.
+Mediante este recurso, se genera un token de pago a partir de los datos de la tarjeta del cliente.
 Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parametro al que corresponde.
 
 ```html
@@ -293,6 +293,71 @@ function sendForm(event){
   decidir.createToken(form, sdkResponseHandler);//formulario y callback
   return false;
 };
+//..codigo...
+```
+[<sub>Volver a inicio</sub>](#inicio)
+
+
+<a name="pagooffline"></a>
+
+#### Pago offline
+
+Mediante este recurso, se genera un token de pago offline a partir de los datos del cliente.
+Debe enviarse un formulario web, con los campos marcados con el atributo `data-decidir` indicando el parámetro al que corresponde.
+
+```html
+<form action="" method="post" id="formulario" >
+  <fieldset>
+		<ul>
+      <li>
+        <label for="customer_name">Nombre del cliente:</label>
+        <input type="text" data-decidir="customer_name" placeholder="TITULAR" value="TITULAR"/>
+      </li>
+      <li>
+        <label for="customer_doc_type">Tipo de documento:</label>
+        <select data-decidir="card_holder_doc_type">
+					<option value="dni">DNI</option>
+				</select>
+      </li>
+      <li>
+        <label for="customer_doc_number">Numero de documento:</label>
+        <input type="text" data-decidir="customer_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
+      </li>
+    </ul>
+    <input type="submit" value="Generar Token" />
+  </fieldset>
+</form>
+```
+Y la invocaci&oacute;n en **Javascript**
+
+```javascript
+const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+const urlSandbox = "https://developers.decidir.com/api/v1";
+//Para el ambiente de desarrollo
+const decidir = new Decidir(urlSandbox);
+//Se indica la public API Key
+decidir.setPublishableKey(publicApiKey);
+decidir.setTimeout(5000);//timeout de 5 segundos
+//formulario
+var form = document.querySelector('#formulario');
+//Asigna la funcion de invocacion al evento de submit del formulario
+addEvent(form,'submit',sendForm));
+//funcion para manejar la respuesta
+function sdkResponseHandler(status, response) {
+	if (status != 200 && status != 201) {
+    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //...codigo...
+  } else {
+    //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
+    //..codigo...
+  }
+}
+//funcion de invocacion con sdk
+function sendForm(event) {
+  event.preventDefault();
+  decidir.createToken(form, sdkResponseHandler);//formulario y callback
+  return false;
+}
 //..codigo...
 ```
 [<sub>Volver a inicio</sub>](#inicio)
