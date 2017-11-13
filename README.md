@@ -317,7 +317,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
       </li>
       <li>
         <label for="customer_doc_type">Tipo de documento:</label>
-        <select data-decidir="card_holder_doc_type">
+        <select data-decidir="customer_doc_type">
 					<option value="dni">DNI</option>
 				</select>
       </li>
