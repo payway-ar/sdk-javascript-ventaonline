@@ -81,7 +81,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 Se debe agregar en el HTML el siguiente tag.
 
 ```html
-<script src="https://live.decidir.com/static/v1/decidir.js"></script>
+<script src="https://live.decidir.com/static/v1.1/decidir.js"></script>
 ```
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -95,8 +95,8 @@ El ambiente se debe instanciar indicando su URL.
 
 ```javascript
 // ...codigo...
-const urlSandbox = "https://developers.decidir.com/api/v1";
-const urlProduccion = "https://live.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
+const urlProduccion = "https://live.decidir.com/api/v2";
 //Para el ambiente de desarrollo
 const decidirSandbox = new Decidir(urlSandbox);
 decidirSandbox.setTimeout(0);//se configura sin timeout
@@ -124,7 +124,7 @@ A partir de ahora y por el resto de la documentaci&oacute;n, se ejemplificar&aac
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
 //Para el ambiente de desarrollo
 const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
@@ -210,7 +210,7 @@ Y la invocaci&oacute;n en **Javascript**
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
 //Para el ambiente de desarrollo
 const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
@@ -269,7 +269,7 @@ Y la invocaci&oacute;n en **Javascript**
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
 //Para el ambiente de desarrollo
 const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
@@ -317,7 +317,7 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
       </li>
       <li>
         <label for="customer_doc_type">Tipo de documento:</label>
-        <select data-decidir="customer_doc_type">
+        <select data-decidir="card_holder_doc_type">
 					<option value="dni">DNI</option>
 				</select>
       </li>
@@ -334,7 +334,7 @@ Y la invocaci&oacute;n en **Javascript**
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
 //Para el ambiente de desarrollo
 const decidir = new Decidir(urlSandbox);
 //Se indica la public API Key
@@ -373,7 +373,7 @@ Por default, la sdk javascript utiliza el Servicio de Control de Fraude Cybersou
 
 ```javascript
 const publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+const urlSandbox = "https://developers.decidir.com/api/v2";
 const inhabilitarCS = true;
 //Para el ambiente de desarrollo
 const decidir = new Decidir(urlSandbox, inhabilitarCS);
