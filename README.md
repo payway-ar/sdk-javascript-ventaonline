@@ -81,7 +81,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 Se debe agregar en el HTML el siguiente tag.
 
 ```html
-<script src="https://live.decidir.com/static/v1.1/decidir.js"></script>
+<script src="https://live.decidir.com/static/v2/decidir.js"></script>
 ```
 [<sub>Volver a inicio</sub>](#inicio)
 
