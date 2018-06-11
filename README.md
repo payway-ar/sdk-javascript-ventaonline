@@ -81,8 +81,16 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 Se debe agregar en el HTML el siguiente tag.
 
 ```html
-<script src="https://live.decidir.com/static/v2/decidir.js"></script>
+<script src="https://live.decidir.com/static/v2.4/decidir.js"></script>
 ```
+### Compatibilidad
+Si quiere disponibilizar su producto en componentes web embebidos WebView de Android inferiores a v33.0.0.0, deberá incluir previo a la SDK, la siguiente librer&iacute;a que incluye objetos de compatibilidad que WebView reconoce:
+
+```html
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+```
+*Solamente se recomienda incluir &eacute;sta librer&iacute;a en casos excepcionales ya que agrega compatibilidad a versiones muy antiguas e influye en el tamaño de su aplicaci&oacute;n*
+
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="test"></a>
