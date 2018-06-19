@@ -231,7 +231,7 @@ addEvent(form,'submit',sendForm));
 //funcion para manejar la respuesta
 function sdkResponseHandler(status, response) {
 	if (status != 200 && status != 201) {
-    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //Manejo de error: Ver Respuesta de Error
     //...codigo...
   } else {
     //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
@@ -290,7 +290,7 @@ addEvent(form,'submit',sendForm));
 //funcion para manejar la respuesta
 function sdkResponseHandler(status, response) {
 	if (status != 200 && status != 201) {
-    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //Manejo de error: Ver Respuesta de Error
     //...codigo...
   } else {
     //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
@@ -355,7 +355,7 @@ addEvent(form,'submit',sendForm));
 //funcion para manejar la respuesta
 function sdkResponseHandler(status, response) {
 	if (status != 200 && status != 201) {
-    //Manejo de error donde response = {error: [{error:"tipo de error", param:"parametro con error"},...]}
+    //Manejo de error: Ver Respuesta de Error
     //...codigo...
   } else {
     //Manejo de respuesta donde response = {token: "99ab0740-4ef9-4b38-bdf9-c4c963459b22"}
@@ -409,7 +409,32 @@ https://decidir.api-docs.io/1.0/prevencion-de-fraude-by-cybersource/cs_device_fi
 
 <a name="erroresSDK"></a>
 
-## Mensajes de Error
+## Respuesta de Error
+
+```json
+{
+	"error": [{
+		"isValid": false,
+		"error": {
+			"type": "invalid_expiry_date",
+			"message": "Expiry date is invalid",
+			"param": "expiry_date"
+		},
+		"param": "expiry_date"
+	},
+	{
+		"isValid": false,
+		"error": {
+			"type": "empty_card_holder_name",
+			"message": "Card Holder Name is empty",
+			"param": "card_holder_name"
+		},
+		"param": "card_holder_name"
+	}]
+}
+```
+
+## Códigos de Error
 Estos códigos de Errores son los status en las Excepciones.
 
 |Tipo                  |Mensaje                     |Parámetro       |
