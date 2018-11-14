@@ -1,44 +1,29 @@
 
 var decidir = null
 var selectedForm = undefined
-var decidirWithFraudPrevention = undefined
-var decidirNoFraudPrevention = undefined
 var decidirAgro = undefined
 
 //Aux variables
-let decidirLocalConCS = new Decidir('http://localhost:9002', false);
-decidirLocalConCS.setPublishableKey('00040407_public');
 let decidirDevelConCS = new Decidir('https://developers.decidir.com/api/v2', false);
-decidirDevelConCS.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741'); //para ir generando la metadata CS
+decidirDevelConCS.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741'); //para generar el device-fingerprint-id
 
 window.addEventListener("DOMContentLoaded", function() {
        intializeExample();
    }, false);
 
 function FactoryDecidir(){
-  this.create = function(environment, dontUseFraudPrevention){
+  this.create = function(environment, cybersource){
 
     var decidirInstance = null;
 
-    if(environment == "local"){
-        if(dontUseFraudPrevention){
-          decidirInstance = decidirLocalConCS;
-        }
-        else{
-          decidirInstance = new Decidir('http://localhost:9002', true);
-          decidirInstance.setPublishableKey('00040407_public');
-        }
-    }
-    else{
-        if(dontUseFraudPrevention){
-          decidirInstance = decidirDevelConCS;
-        }else{
-          decidirInstance = new Decidir('https://developers.decidir.com/api/v2', true);
-          decidirInstance.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741');  
-        }
+    if(cybersource){ // Si usa Cybersource
+      decidirInstance = decidirDevelConCS;
+    }else{
+      decidirInstance = new Decidir('https://developers.decidir.com/api/v2', true);
+      decidirInstance.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741');
     }
 
-    let timeout = dontUseFraudPrevention ? 20000 : 10000;
+    let timeout = cybersource ? 20000 : 10000;
     decidirInstance.setTimeout(timeout);
 
     return decidirInstance;
@@ -46,15 +31,7 @@ function FactoryDecidir(){
 }
 
 function intializeExample() {
-  /*
-  decidirWithFraudPrevention = new Decidir('https://developers.decidir.com/api/v2',false);
-  decidirWithFraudPrevention.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741');
-  decidirWithFraudPrevention.setTimeout(20000);//sets 20000ms timeout
-  decidirNoFraudPrevention = new Decidir('https://developers.decidir.com/api/v2', true);
-  decidirNoFraudPrevention.setPublishableKey('e9cdb99fff374b5f91da4480c8dca741');
-  decidirNoFraudPrevention.setTimeout(10000);//sets 10000ms timeout
-  */
-  //withFraudPrevention(document.querySelector('#fraud_prevention').checked)
+
   changeRequestType('card_data_form');
 
   let element = document.querySelectorAll('form[name=token-form');
@@ -78,10 +55,6 @@ function addEvent(el, eventName, handler){
         });
     }
 };
-
-function withFraudPrevention(useFraudPrevention) {
-  //decidir = useFraudPrevention ? decidirWithFraudPrevention : decidirNoFraudPrevention
-}
 
 function withAgro(isAgro){
   decidirAgro = isAgro;
@@ -154,11 +127,11 @@ function sendForm(event){
     var $form = document.querySelector('#'+selectedForm);
     
     let environment = document.querySelector('input[name="environment"]:checked').value;
-    let dontUseFraudPrevention = !document.querySelector('#fraud_prevention').checked;
+    let useCybersource = document.querySelector('#fraud_prevention').checked;
 
     if(decidirAgro !== true){
       var factory = new FactoryDecidir(); //Agro usa configuracion local por defecto.
-      decidir = factory.create(environment, dontUseFraudPrevention);
+      decidir = factory.create(environment, useCybersource);
     }
 
     console.log('Decidir.createToken()');

@@ -1,0 +1,442 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="agro.css">
+    <title>Agro Payment</title>
+    <style type="text/css">
+    input[type=text]::-ms-clear { display: none; }
+    .paybox { background: #f6f6f6; font-family: Arial,sans-serif; font-size: 14px; }
+    .paybox h1 { width: 350px; padding: 30px; margin: auto; border-width: 1px 1px 0px 1px; border-style: solid; border-color: #ddd; border-radius: 10px 10px 0px 0px; text-align: center; background: #eef2f4 ; font-weight: 300; color: #5d6f78; font-size: 24px;}
+    .paybox form { border: 1px solid #ddd; padding: 30px; border-radius: 0px 0px 10px 10px; width: 350px; margin: auto; background: #fff;}
+    .paybox form .row { margin-bottom: 10px;}
+    .paybox form .row .colx2 { display: inline-block; vertical-align: top;}
+    .paybox form .row .colx3 { display: inline-block; vertical-align: top;}
+    .paybox form .row .colx2.col1 { width: 50%; }
+    .paybox form .row .colx2.col2 { width: 47%; }
+    .paybox form .row .colx3.col1 { width: 22%; }
+    .paybox form .row .colx3.col2 { width: 28%; }
+    .paybox form .row .colx3.col3 { width: 47%; }
+	.paybox form label { padding-top: 10px; font-weight: bold;}
+	.paybox form #card_data label { display: block;}
+    .paybox form input[type="text"] { border-radius: 5px; }
+    .paybox form input[type="text"], select { padding-left: 6px; height: 40px; line-height: 1; margin-top: 4px; border: 1px solid #c7cbce; }
+    .paybox form select { width: 70px;}
+    .paybox form input[id="CardNumber"] { width: 55%; }
+    .paybox form input[id="CardHolderName"] { width: 100%;  }
+    .paybox form input[id="CardSecurityCode"] { border-radius: 5px 0px 0px 5px; }
+    .paybox form input[id="CardHolderMail"] { width: 100%;  }
+    .paybox form #boxCardNumber { position: relative; }
+    .paybox form ::-webkit-input-placeholder {color: #999;}
+    .paybox form ::-moz-placeholder {color: #999;}
+    .paybox form :-ms-input-placeholder {color: #999;}
+    .paybox form :-moz-placeholder {color: #999; letter-spacing: 1px;}
+    .paybox form #CardNumber:-ms-input-placeholder { letter-spacing: 1px; }
+    .paybox form #CardNumber::-moz-placeholder { letter-spacing: 1px; }
+    .paybox form #CardNumber::-webkit-input-placeholder { letter-spacing: 1px; }
+    .paybox form #CardSecurityCodeHelper { background-color: #f2f2f2; color: #5e656b; display: inline-block; border: 1px solid #c7cbce; border-left: 0px; height: 40px; padding: 5px 4px; border-radius: 0px 5px 5px 0px;}
+    .paybox form .btn-primary { border: 1px solid #54c7c3; padding: 6px; border-radius: 5px; background: #54c7c3; color: #fff; font-size: 16px; width: 30%; cursor: pointer;}
+    .btn-iniciar { border: 1px solid grey; padding: 6px; border-radius: 5px; background: grey; color: #fff; font-size: 16px; width: 30%; cursor: pointer;}
+    .paybox form .btn-primary:hover { background: #6dcecb;}
+    .paybox form select[id="CardHolderBirthDay"] { width: 50px; padding: 0px;}
+    .paybox form select[id="CardHolderBirthMonth"] { width: 50px; padding: 0px;}
+    .paybox form select[id="CardHolderBirthYear"] { width: 55px; padding: 0px;}
+    .frmPaymentSpnCardType { right: auto !important; left: 55% !important; top: 10px !important;}
+    .paybox form #sm{margin-left: 100px;}
+	.paybox form #SelectPeriodicity {width: 100%;}
+    .paybox form .date{height: 30px;width:25%;margin-right: 30px;}
+    .paybox form .importe{height: 30px;width:26%;margin-left: 0px;}
+	.paybox form #pimporte {width: 10px;}
+	.paybox form #divCuotas ul { padding: 0px;}
+	.paybox form #divCuotas ul li { clear: left;}
+	.paybox form #divCuotas label { float: left; font-weight: normal; }
+	.paybox form #divCuotas input {float: left; margin: 0px 5px 5px 5px; }
+    .paybox form .errorBox { border: 1px solid red !important;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/es.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/3.0.6/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/3.0.6/l10n/es.js"></script>
+	<script src=" https://live.decidir.com/static/v2.4/decidir.js"></script>
+    <script type="text/javascript">
+
+        var decidir = null;
+        var payform = null;
+
+        function addEvent(el, eventName, handler){
+            if (el.addEventListener) {
+                el.addEventListener(eventName, handler);
+            } else {
+                el.attachEvent('on' + eventName, function(){
+                handler.call(el);
+                });
+            }
+        };
+
+		window.addEventListener("DOMContentLoaded", function() {
+
+            payform = document.querySelector('#payform');
+            addEvent(payform,'submit',sendForm);
+
+			var $formAgro = document.querySelector('#agro_data_form');
+
+			var montoTx = 200;
+			document.querySelector('#divMontoOperacion').innerHTML = montoTx;
+			
+			decidir = new Decidir('http://localhost:9002', true);
+        	decidir.setPublishableKey('50000509_public');
+			decidir.setUpAgro($formAgro, 184, montoTx);
+
+        }, false);
+        
+        function sendForm(event){
+            event.preventDefault();
+
+            //borra cualquier error anteriormente marcado en el formulario por validación incorrecta de datos.
+            document.querySelectorAll('[data-decidir]').forEach(el => el.classList.remove('errorBox'));
+            
+            console.log('Decidir.createToken()');
+            decidir.createToken(payform, sdkResponseHandler);
+
+            return false;
+        };
+
+        function sdkResponseHandler(status, response) {
+            console.log('respuesta', response);
+            if(status==422){
+                var step1Error = false;
+                for(var i=0; i < response.error.length; i++){
+
+                    if(response.error[i].param.match(/^installment\d{1,2}|periodicity|installments|amount$/))
+                        step1Error = true;
+
+                    if(response.error[i].param == 'expiry_date'){
+                        document.querySelectorAll('select[data-decidir^="card_expiration"]').
+                        forEach(ddl => ddl.classList.add('errorBox'));
+                    }
+                    else if(response.error[i].param == 'amount'){
+                        document.querySelectorAll('input[data-decidir^="amount"]').
+                        forEach(ipt => ipt.classList.add('errorBox'));
+                    }
+                    else{
+                        let elem = document.querySelector(`[data-decidir="${response.error[i].param}"]`);
+                        elem.classList.add('errorBox');
+                    }
+                    
+                }
+
+                if(step1Error)
+                    goToWizardStep(1);
+            }
+            else{
+                document.querySelector('#paymentToken').value = response.id;
+                payform.submit();
+            }
+        }
+
+        function goToWizardStep(step_nr){
+
+            if(step_nr==1){
+                document.querySelector('#agro_data_form').removeAttribute('hidden'); 
+                document.querySelector('#card_data').setAttribute('hidden', true);
+            }
+
+            if(step_nr==2){
+                document.querySelectorAll('[data-decidir^="installment"]').forEach(el => el.classList.remove('errorBox'));
+                document.querySelector('[data-decidir="periodicity"]').classList.remove('errorBox');
+                document.querySelector('#agro_data_form').setAttribute('hidden', true); 
+                document.querySelector('#card_data').removeAttribute('hidden');
+            }
+        }
+	</script>
+ </head>
+  <body class="paybox">
+
+	<div class="header-decidir" onclick="location.href='index.php';" style="cursor: pointer;">Agro Payment</div>
+
+	<!--[if IE]>
+		<style>
+			#CardSecurityCodeHelper{float:right;border: 1px solid #c7cbce;height:70px;margin-top:4px;margin-right:91px;}
+			#CardSecurityCode{height:36px;}
+			.paybox form input[type="text"], select {padding-left: 6px; height: 40px; line-height: 3; margin-top: 4px; border: 1px solid #c7cbce;border-radius:20px;}
+			select[id="TipoDniIdentification"] { height:44px;}
+		</style>
+	<![endif]-->
+		
+    <div id ="AgroPay">
+        
+        <div id="formPay">
+        <h1>Total a Pagar $<span id="divMontoOperacion"></span></h1>
+        <form action="http://localhost:9093/mypaymentprocessor" method="POST" id="payform">
+
+            <input type="hidden" name="paymentToken" id="paymentToken" value="" />
+
+            <!-- BEGIN: Formulario Cuotas-->
+            <div id="agro_data_form">
+
+                <div class="row">
+                    <div class="colx3 col1">
+                        <div id="lblNumeroCuotas">Cuotas</div>
+                        <select data-decidir="installments" id="SelectInstallments">
+                            <option value=null selected disabled></option>
+                            <option id="1" value="1">1</option>
+                            <option id="2" value="2">2</option>
+                            <option id="3" value="3">3</option>
+                            <option id="4" value="4">4</option>
+                            <option id="5" value="5">5</option>
+                            <option id="6" value="6">6</option>
+                            <option id="7" value="7">7</option>
+                            <option id="8" value="8">8</option>
+                            <option id="9" value="9">9</option>
+                            <option id="10" value="10">10</option>
+                            <option id="11" value="11">11</option>
+                            <option id="12" value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="colx3 col2">
+                        <div id="lblPeriodicidad">Periodicidad</div>
+                        <select data-decidir="periodicity" id="SelectPeriodicity">
+                            <option value=null selected disabled></option>
+                            <option id="mensual" value="1">Mensual</option>
+                            <option id="bimestral" value="2">Bimestral</option>
+                            <option id="trimestral" value="3">Trimestral</option>
+                            <option id="semestral" value="6">Semestral</option>
+                            <option value="0">Otro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="divCuotas" style="margin-bottom: 10px;">
+
+					<ul style="list-style: none;">
+						<li>
+							<label for="installment1">Cuota 01:</label>
+							<input type="text" data-decidir="installment1" name="i1" size="10" />
+							<label for="amount1">$</label>
+							<input type="text" data-decidir="amount1" name="a1" size="8" />
+						</li>
+						<li>
+							<label for="installment2">Cuota 02:</label>
+							<input type="text" data-decidir="installment2" name="i2" size="10" />
+							<label for="amount2">$</label>
+							<input type="text" data-decidir="amount2" name="a2" size="8" />
+						</li>
+						<li>
+							<label for="installment3">Cuota 03:</label>
+							<input type="text" data-decidir="installment3" name="i3" size="10" />
+							<label for="amount3">$</label>
+							<input type="text" data-decidir="amount3" name="a3" size="8" />
+						</li>
+						<li>
+							<label for="installment4">Cuota 04:</label>
+							<input type="text" data-decidir="installment4" name="i4" size="10" />
+							<label for="amount4">$</label>
+							<input type="text" data-decidir="amount4" name="a4" size="8" />
+						</li>
+						<li>
+							<label for="installment5">Cuota 05:</label>
+							<input type="text" data-decidir="installment5" name="i5" size="10" />
+							<label for="amount5">$</label>
+							<input type="text" data-decidir="amount5" name="a5" size="8" />
+						</li>
+						<li>
+							<label for="installment6">Cuota 06:</label>
+							<input type="text" data-decidir="installment6" name="i6" size="10" />
+							<label for="amount6">$</label>
+							<input type="text" data-decidir="amount6" name="a6" size="8" />
+						</li>
+
+						<li>
+							<label for="installment7">Cuota 07:</label>
+							<input type="text" data-decidir="installment7" name="i7" size="10" />
+							<label for="amount7">$</label>
+							<input type="text" data-decidir="amount7" name="a7" size="8" />
+						</li>
+						<li>
+							<label for="installment8">Cuota 08:</label>
+							<input type="text" data-decidir="installment8" name="i8" size="10" />
+							<label for="amount8">$</label>
+							<input type="text" data-decidir="amount8" name="a8" size="8" />
+						</li>
+						<li>
+							<label for="installment9">Cuota 09:</label>
+							<input type="text" data-decidir="installment9" name="i9" size="10" />
+							<label for="amount9">$</label>
+							<input type="text" data-decidir="amount9" name="a9" size="8" />
+						</li>
+						<li>
+							<label for="installment10">Cuota 10:</label>
+							<input type="text" data-decidir="installment10" name="i10" size="10" />
+							<label for="amount10">$</label>
+							<input type="text" data-decidir="amount10" name="a10" size="8" />
+						</li>
+						<li>
+							<label for="installment11">Cuota 11:</label>
+							<input type="text" data-decidir="installment11" name="i11" size="10" />
+							<label for="amount11">$</label>
+							<input type="text" data-decidir="amount11" name="a11" size="8" />
+						</li>
+						<li>
+							<label for="installment12">Cuota 12:</label>
+							<input type="text" data-decidir="installment12" name="i12" size="10" />
+							<label for="amount12">$</label>
+							<input type="text" data-decidir="amount12" name="a12" size="8" />
+						</li>
+					</ul>
+					
+                </div>
+
+                <br/><br/>
+
+                <div class="row" style="text-align: right;">
+                    <button id="ButtonNext" type="button" class="btn btn-primary col-xs-12" onclick="goToWizardStep(2);">Continuar</button>
+                </div>
+            </div>
+            <!-- END: Formulario Cuotas-->
+
+            <div id="card_data" hidden="true">
+
+                <div id="divShowBin" style="display: none;">Bin: <span id="spnCardBin" style="font-weight: bold;"></span></div>
+                <div id="divShowMarcaTarjeta" style="display: none;">Marca Tarjeta: <span id="spnMarcaTarjeta" style="font-weight: bold;"></span></div>
+                <div class="row">
+                    <label for="CardNumber">N&uacute;mero de Tarjeta</label>
+                    <div id="boxCardNumber"><input type="text" id="CardNumber" data-decidir="card_number" placeholder="•••• •••• •••• ••••" autocomplete="off" /></div>
+                </div>
+                <div class="row">
+                    <label for="CardHolderName">Nombre</label>
+                    <input type="text" id="CardHolderName" data-decidir="card_holder_name" placeholder="Ingrese su nombre" />
+                </div>
+                <div class="row">
+                    <div class="colx2 col1">
+                        <!--La fecha de vencimiewnto puede solicitarse en uno o 2 campos, a continuación se encuentran ambos fragmentos de código-->
+                        <!--Fecha de vencimiento en un solo campo:-->
+                        <div id="divCardExpirationDateTextBox" style="display: none;">
+                            <label for="CardExpirationDate">Vencimiento</label>
+                            <input type="text" size="12" id="CardExpirationDate" placeholder="MMAA" />
+                        </div>
+                        <!--Fin fecha de vencimiento en un solo campo-->
+                        <!--Fecha de Vencimiento en 2 campos:-->
+                        <div id="divCardExpirationDateDDLs">
+                            <label for="CardExpirationMonth">Vencimiento</label>
+                            <select id="CardExpirationMonth" data-decidir="card_expiration_month">
+                                <option>MM</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select id="CardExpirationYear" data-decidir="card_expiration_year">
+                                <option>AAAA</option>
+                                <option value="17">2017</option>
+                                <option value="18">2018</option>
+                                <option value="19">2019</option>
+                                <option value="20">2020</option>
+                             </select>
+                        </div>
+                        <!--Fin fecha de Vencimiento en 2 campos-->
+                    </div>
+                    <div class="colx2 col2">
+                        <div style="float:left;">
+                            <label for="CardSecurityCode">CVC</label>
+                            <input type="text" size="3" id="CardSecurityCode" data-decidir="security_code" placeholder="•••" ><button id="CardSecurityCodeHelper" type="button" tabindex="-1">?</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="CardHolderMail">Email</label>
+                    <input type="text" size="30" id="CardHolderMail" placeholder="Ingrese su email" >
+                </div>
+                <!--<div class="row">
+	                <div class="colx3 col1">
+	                    <label for="TipoDni">Tipo Doc.</label>
+	                    <select id="TipoDniIdentification">
+	                        <option value="1" selected="">DNI</option>
+	                        <option value="2">LC</option>
+	                    </select>
+	                </div>
+	                <div class="colx3 col2" >
+	                    <label for="NumeroDniIdentification">N&deg; Doc.</label>
+	                    <input type="text" size="8" id="NumeroDniIdentification" placeholder="••••••••" maxlength="8">
+	                </div>
+                </div>-->
+                <div class="row" style="display: block;">
+                    <div class="colx3 col1">
+                        <label for="TipoDni">Tipo Doc.</label>
+                        <select id="CardHolderIdentificationType" data-decidir="card_holder_doc_type">
+                            <option value=""></option>
+                            <option value="dni">DNI</option>
+                            <option value="lc">LC</option>
+                        </select>
+                    </div>
+                    <div class="colx3 col2">
+                        <label for="CardHolderIdentification">N&deg; Doc.</label>
+                        <input type="text" data-decidir="card_holder_doc_number" size="8" id="CardHolderIdentification" placeholder="••••••••" maxlength="8" >
+                    </div>
+                    <div class="colx3 col3">
+                        <div id="divFechaNacDDLs">
+                            <label for="CardHolderBirthDay">Fecha Nac.</label>
+                            <select id="CardHolderBirthDay">
+                                <option>DD</option>
+                                <option value="1">1</option>
+                            </select>
+                            <select id="CardHolderBirthMonth">
+                                <option>MM</option>
+                                <option value="1">01</option>
+                            </select>
+                            <select id="CardHolderBirthYear">
+                                <option>AAAA</option>
+                                <option value="1980">1980</option>
+                            </select>
+                        </div>
+                        <div id="divFechaNacTextBox" style="display:none;">
+                            <label for="CardHolderDateOfBirth">Fecha Nac.</label>
+                            <input type="text" id="CardHolderDateOfBirth" placeholder="DDMMAAAA" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="divFormExtended2" style="display: block;">
+                    <div class="colx2 col1">
+                        <label for="CardHolderAddressStreet">Domicilio</label>
+                        <input type="text" style="width: 165px;" id="CardHolderAddressStreet" placeholder="Ingrese su domicilio" >
+                    </div>
+                    <div class="colx2 col2">
+                        <label for="CardHolderAddressNumber">N&deg; de Puerta</label>
+                        <input type="text" size="10" id="CardHolderAddressNumber" placeholder="••••" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="colx2 col1">
+                        <label for="Token">TokenAgro</label>
+                        <input type="text" style="width: 170px;" id="TokenInputFile" name="tokenAgro" placeholder="••••••" maxlength="6">
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;margin-bottom:20px;">
+                    <button type="button" class="btn btn-primary col-xs-12" style="float:left;" onclick="goToWizardStep(1);">Anterior</button>
+                    <input type="submit" name="" id="ButtonPay" class="btn btn-primary col-xs-12" style="float:right;" value="Pagar">
+                    <br/>
+                </div>
+
+
+            </div>
+            
+
+            
+        </form>
+        
+	</div>
+	
+  </body>
+</html>
+
