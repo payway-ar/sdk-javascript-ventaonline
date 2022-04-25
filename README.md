@@ -1,8 +1,8 @@
 <a name="inicio"></a>
-Decidir SDK Javascript
+Payway SDK Javascript
 ===============
 
-Modulo para conexión con gateway de pago DECIDIR2
+Modulo para conexión con gateway de pago Payway
 
 + [Introducción](#introduccion)
   + [Alcance](#scope)
@@ -25,14 +25,12 @@ Modulo para conexión con gateway de pago DECIDIR2
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
-  + [sdk IOS](https://github.com/decidir/sdk-ios-v2)
-  + [sdk Android](https://github.com/decidir/sdk-android-v2)
-  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+ + [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 + **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
-  + [sdk Java](https://github.com/decidir/sdk-java-v2)
-  + [sdk PHP](https://github.com/decidir/sdk-php-v2)
-  + [sdk .Net](https://github.com/decidir/sdk-.net-v2)
-  + [sdk Node](https://github.com/decidir/sdk-node-v2)
+  + [sdk Java](https://github.com/payway-ar/sdk-java-ventaonline)
+  + [sdk PHP](https://github.com/payway-ar/sdk-php-ventaonline)
+  + [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
+  + [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
 
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -40,18 +38,18 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
 <a name="scope"></a>
 ## Alcance
 La **sdk Javascript** provee soporte para su **aplicaci&oacute;n front-end**, encargandose de la **generaci&oacute;n de un token de pago** por parte de un cliente. Este **token** debe ser enviado al comercio al realizar el pago.
-Esta sdk permite la comunicaci&oacute;n del cliente con la **API Decidir** utilizando su **API Key p&uacute;blica**<sup>1</sup>.
+Esta sdk permite la comunicaci&oacute;n del cliente con la **API Payway** utilizando su **API Key p&uacute;blica**<sup>1</sup>.
 
-Para procesar el pago con **Decidir**, el comercio podr&acute; realizarlo a trav&eacute;s de alguna de las siguentes **sdks front-backend**:
-+ [sdk Java](https://github.com/decidir/sdk-java-v2)
-+ [sdk PHP](https://github.com/decidir/sdk-php-v2)
-+ [sdk .Net](https://github.com/decidir/sdk-.net-v2)
-+ [sdk Node](https://github.com/decidir/sdk-node-v2)
+Para procesar el pago con **Payway**, el comercio podr&acute; realizarlo a trav&eacute;s de alguna de las siguentes **sdks front-backend**:
++ [sdk Java](https://github.com/payway-ar/sdk-java-ventaonline)
++ [sdk PHP](https://github.com/payway-ar/sdk-php-ventaonline)
++ [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
++ [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
 
 ![imagen de sdks](./docs/img/DiagramaSDKs.png)
 
 ---
-<sup>_1 - Las API Keys serán provistas por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar)</sup>
+<sup>_1 - Las API Keys serán provistas por el equipo de Soporte de Payway (soporte@payway.com.ar)</sup>
 
 *Atención!* La **sdk Javascript** cumple con el estándar **ECMA Script 6** por lo que no 
 será compatible en versiones muy antiguas de Browsers. Podrá encontrar la información 
@@ -97,7 +95,7 @@ Si quiere disponibilizar su producto en componentes web embebidos WebView de And
 
 ## Ambientes
 
-El **sdk Javascript** permite trabajar con los ambientes Sandbox y Producc&oacute;n de Decidir.
+El **sdk Javascript** permite trabajar con los ambientes Sandbox y Producc&oacute;n de Payway.
 El ambiente se debe instanciar indicando su URL.
 
 
@@ -123,9 +121,9 @@ decidirProduccion.setTimeout(3000);//se configura el timeout en milisegundos
 
 Instanciación de la clase `Decidir`
 
-La misma recibe como parámetros la public key provista por Decidir para el comercio y el ambiente en que se trabajar&aacute;.
+La misma recibe como parámetros la public key provista por Payway para el comercio y el ambiente en que se trabajar&aacute;.
 
-La API Key será provista por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar).
+La API Key será provista por el equipo de Soporte de Payway (soporte@payway.com.ar).
 
 A partir de ahora y por el resto de la documentaci&oacute;n, se ejemplificar&aacute; utilizando una APIKey habilitada para operar en el ambiente Sandbox.
 

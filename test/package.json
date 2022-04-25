@@ -1,7 +1,7 @@
 {
   "name": "sdk-javascript",
   "version": "1.0.0",
-  "description": "JavaScript SDK for decidir gateway",
+  "description": "JavaScript SDK for Payway gateway",
   "main": "index.js",
   "scripts": {
     "test": ""
