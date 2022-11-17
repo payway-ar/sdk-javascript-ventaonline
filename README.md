@@ -20,6 +20,7 @@ Modulo para conexión con gateway de pago Payway
        + [Device fingerprinter](#device)
  + [Tablas de referencia](#tablasreferencia)
    + [Mensajes de Error](#erroresSDK)
+ + [Advertencias](#advertencias)
 <a name="introduccion"></a>
 ## Introducción
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
@@ -446,7 +447,8 @@ Estos códigos de Errores son los status en las Excepciones.
 |empty_token           |Token is empty              |token           |
 |invalid_param         |Invalid param               |any param       |
 
-## Advertencia
+<a name="advertencias"></a>
+# Advertencias
 
 El uso de **CardType** no está disponible actualmente. Estamos trabajando para entregar ésta funcionalidad actualizada y mejorada.
 
