@@ -446,4 +446,8 @@ Estos códigos de Errores son los status en las Excepciones.
 |empty_token           |Token is empty              |token           |
 |invalid_param         |Invalid param               |any param       |
 
+## Advertencia
+
+El uso de **CardType** no está disponible actualmente. Estamos trabajando para entregar ésta funcionalidad actualizada y mejorada.
+
 [<sub>Volver a inicio</sub>](#inicio)
