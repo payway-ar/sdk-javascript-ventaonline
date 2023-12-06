@@ -168,6 +168,8 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
 | card_number| numero de tc  | SI  |  Mayor o igual a 15 numeros   | "4507990000004905"  |
 | card_expiration_month | mes de vto de tc  | SI  | No debe ser anterior a la fecha (mes/año) del dia actual  | 07  |
 | card_expiration_year  |año de vto de tc   | SI  |  No debe ser anterior a la fecha (mes/año) del dia actual   | 17  |
+| card_holder_birthday  |año de nac del titutal   | NO  |  El formato a respetar es ddMMYYYY   | 01091994 |
+| card_holder_door_number  |nro puerta del titular   | NO  |  Debe ser numerico   | 1502  |
 | security_code | codigo de seguridad  | NO  | Sin validacion  | 234  |
 | card_holder_name | titular (como figura en la tc)  | SI  | Mayor igual a 1 letra  | Valentin Santiago Gomez  |
 | type  |  tipo de documento | NO  | Sin validacion  | dni/DNI, cuil/CUIL  |
@@ -208,6 +210,15 @@ Debe enviarse un formulario web, con los campos marcados con el atributo `data-d
         <label for="card_holder_doc_type">Numero de documento:</label>
         <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328"/>
       </li>
+<!-  Adicional se pueden agregar los datos de fecha de nacimiento y nro de puerta relacionados al titular de la tarjeta ->
+      <li>
+		<label for="card_holder_birthday">Card holder birthday:</label>
+		<input type="text" id="card_holder_birthday" data-decidir="card_holder_birthday" placeholder="ddMMYYYY" value="04091994"/>
+       </li>
+       <li>
+		<label for="card_holder_door_number">Card holder door number:</label>
+		<input type="text" id="card_holder_door_number" data-decidir="card_holder_door_number" placeholder="NUM" value="1"/>
+       </li>
     </ul>
     <input type="submit" value="Generar Token" />
   </fieldset>
